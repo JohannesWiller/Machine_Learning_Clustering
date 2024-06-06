@@ -10,4 +10,4 @@ This is the start of this project. Our Tasks include:
 -Plotting
 
 
-Useful resources: Clustering in Python[https://github.com/sandipanpaul21/Clustering-in-Python]
+Useful resources: [Clustering in Python](https://github.com/sandipanpaul21/Clustering-in-Python)
