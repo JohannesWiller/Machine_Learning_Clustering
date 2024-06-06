@@ -8,3 +8,6 @@ This is the start of this project. Our Tasks include:
 -Fit a model
 -Model diagnostics
 -Plotting
+
+
+Useful resources: [Clustering in Python](https://github.com/sandipanpaul21/Clustering-in-Python)
