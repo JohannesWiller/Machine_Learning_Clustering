@@ -6,7 +6,7 @@
 # 0. Packages & Importing
 # 1. Explorative Data Analysis and Data Cleaning
 # 2. Preprocessing
-# 3. Running the Model
+# 3. Running the Model (select one to run so plotting works)
 # 4. Plotting the Results
 # 5. Model Diagnostics
 # 
@@ -200,64 +200,85 @@ df_cleaned = df_original.copy()
 # Calculate the average Account Balance
 df_cleaned['Average_Account_Balance'] = df_cleaned[[f'Amount {i}' for i in range(1, 7)]].mean(axis=1)
     #create a plot
-plt.figure(figsize=(10, 6))
-plt.hist(df_cleaned['Average_Account_Balance'], bins=30, edgecolor='k', alpha=0.7)
-plt.title('Histogram of Average_Account_Balance')
-plt.xlabel('Average_Account_Balance')
-plt.ylabel('Frequency')
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.hist(df_cleaned['Average_Account_Balance'], bins=30, edgecolor='k', alpha=0.7)
+# plt.title('Histogram of Average_Account_Balance')
+# plt.xlabel('Average_Account_Balance')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# plt.show()
 
 # Calculate the standard deviation Account Balance
 #df_cleaned['Std_Account_Balance'] = df_cleaned[[f'Amount {i}' for i in range(1, 7)]].std(axis=1)
 
-# Median Repayment Status
-df_cleaned['Median_Repayment_Status'] = df_cleaned[[f'Repayment {i}' for i in range(1, 7)]].median(axis=1)
-  #create a plot
-plt.figure(figsize=(10, 6))
-plt.hist(df_cleaned['Median_Repayment_Status'], bins=30, edgecolor='k', alpha=0.7)
-plt.title('Histogram of Median_Repayment_Status')
-plt.xlabel('Median_Repayment_Status')
-plt.ylabel('Frequency')
-plt.grid(True)
-plt.show()
-
 # Average Repayment Amount
 df_cleaned['Average_Repayment_Amount'] = df_cleaned[[f'Previous {i}' for i in range(1, 7)]].mean(axis=1)
   #create a plot
-plt.figure(figsize=(10, 6))
-plt.hist(df_cleaned['Average_Repayment_Amount'], bins=30, edgecolor='k', alpha=0.7)
-plt.title('Histogram of Average_Repayment_Amount')
-plt.xlabel('Average_Repayment_Amount')
-plt.ylabel('Frequency')
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.hist(df_cleaned['Average_Repayment_Amount'], bins=30, edgecolor='k', alpha=0.7)
+# plt.title('Histogram of Average_Repayment_Amount')
+# plt.xlabel('Average_Repayment_Amount')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# plt.show()
+
+# Calculate the standard deviation Repayment Amount
+#df_cleaned['Std_Repayment_Amount'] = df_cleaned[[f'Previous {i}' for i in range(1, 7)]].std(axis=1)
+
+# Median Repayment Status
+df_cleaned['Median_Repayment_Status'] = df_cleaned[[f'Repayment {i}' for i in range(1, 7)]].median(axis=1)
+  #create a plot
+# plt.figure(figsize=(10, 6))
+# plt.hist(df_cleaned['Median_Repayment_Status'], bins=30, edgecolor='k', alpha=0.7)
+# plt.title('Histogram of Median_Repayment_Status')
+# plt.xlabel('Median_Repayment_Status')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# plt.show()
+
+# Calculate the standard deviation Repayment Status
+#df_cleaned['Std_Repayment_Status'] = df_cleaned[[f'Repayment {i}' for i in range(1, 7)]].std(axis=1)
 
 # Total Repayments Late
 def calculate_total_late_repayments(row):
     return sum(x for x in row if x > 0)
 df_cleaned['Total_Repayments_Late'] = df_cleaned[['Repayment 1', 'Repayment 2', 'Repayment 3', 'Repayment 4', 'Repayment 5', 'Repayment 6']].apply(calculate_total_late_repayments, axis=1)
   #create a plot
-plt.figure(figsize=(10, 6))
-plt.hist(df_cleaned['Total_Repayments_Late'], bins=30, edgecolor='k', alpha=0.7)
-plt.title('Histogram of Total_Repayments_Late')
-plt.xlabel('Total_Repayments_Late')
-plt.ylabel('Frequency')
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.hist(df_cleaned['Total_Repayments_Late'], bins=30, edgecolor='k', alpha=0.7)
+# plt.title('Histogram of Total_Repayments_Late')
+# plt.xlabel('Total_Repayments_Late')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# plt.show()
+
+# # Total Repayments ontime
+# def calculate_total_ontime_repayments(row):
+#     return sum(x for x in row if x <= 0)
+# df_cleaned['Total_Repayments_ontime'] = df_cleaned[['Repayment 1', 'Repayment 2', 'Repayment 3', 'Repayment 4', 'Repayment 5', 'Repayment 6']].apply(calculate_total_ontime_repayments, axis=1)
+#   #create a plot
+# plt.figure(figsize=(10, 6))
+# plt.hist(df_cleaned['Total_Repayments_ontime'], bins=30, edgecolor='k', alpha=0.7)
+# plt.title('Histogram of Total_Repayments_ontime')
+# plt.xlabel('Total_Repayments_ontime')
+# plt.ylabel('Frequency')
+# plt.grid(True)
+# plt.show()
 
 # Get dummy cariables
-df_cleaned = pd.get_dummies(df_cleaned, columns=['Education','Marital Status','Female'], drop_first=False).astype(int)
+df_cleaned = pd.get_dummies(df_cleaned, columns=['Education','Marital Status','Female'], drop_first=True).astype(int)
+
 
 # drop columns
 original_columns_to_remove = [f'Repayment {i}' for i in range(1, 7)] + \
                              [f'Amount {i}' for i in range(1, 7)] + \
-                             [f'Previous {i}' for i in range(1, 7)] #+ \ ['Education_1','Education_2','Education_3','Marital Status_1','Marital Status_0','Female']
+                             [f'Previous {i}' for i in range(1, 7)] #+ \
+                            #['Education_2','Education_3','Marital Status_1','Female_1']
 
 # Remove the original columns
 df_cleaned.drop(columns=original_columns_to_remove, inplace=True)
 
-# Create a cioy for no scaling szenario
+# Create a copy for no scaling szenario
 df_no_Scaling = df_cleaned.copy()
 
 # scale columns
@@ -271,10 +292,11 @@ scaler = RobustScaler()
 # Scale the selected columns
 df_cleaned[columns_to_scale] = scaler.fit_transform(df_cleaned[columns_to_scale])
 
+
 # elbow method
 inertia_list = []
 for i in range(1,10):
-    kmeans = KMeans(n_clusters=i, random_state=42)
+    kmeans = KMeans(n_clusters=i, random_state=20, init='k-means++', n_init=10, algorithm='elkan', max_iter=600)
     kmeans.fit(df_cleaned)
     inertia_list.append(kmeans.inertia_)
 
@@ -295,6 +317,45 @@ plt.show()
 # ## 3. Running the Model
 
 # %%
+# df_preprocessed = df_cleaned.copy()
+
+# # Define an array of cluster options
+# cluster_options = [3]
+
+# # Initial centers: Ensure they have the same number of features as the data
+# initial_centroids = [
+#     ('First / Last values', np.vstack([df_preprocessed.iloc[0].values, df_preprocessed.iloc[-1].values, df_preprocessed.mean().values])),
+#     ('Min / Max values', np.vstack([
+#         df_preprocessed.min().values,
+#         df_preprocessed.max().values,
+#         df_preprocessed.mean().values
+#     ]))
+# ]
+
+# for name, model in initial_centroids:
+#     for num_clusters in cluster_options:
+#         # Ensure model has the right number of initial centers
+#         if model.shape[0] != num_clusters or model.shape[1] != df_preprocessed.shape[1]:
+#             raise ValueError(f"The shape of the initial centers {model.shape} does not match the number of clusters {num_clusters} and features {df_preprocessed.shape[1]}.")
+
+#         # Run KMeans with custom initial centroids
+#         kmeans = KMeans(n_clusters=num_clusters, random_state=20, init=model, n_init=1, max_iter=600)
+#         df_preprocessed['Cluster'] = kmeans.fit_predict(df_preprocessed)
+#         clusters = df_preprocessed['Cluster']
+
+#         # Inspect the cluster assignments
+#         print(f'Cluster assignments for {num_clusters} clusters with {name} initialization:')
+#         print(df_preprocessed['Cluster'].value_counts())
+
+#         # Silhouette Scores:
+#         silhouette_avg = silhouette_score(df_preprocessed.drop(columns=['Cluster']), df_preprocessed['Cluster'])
+#         print(f'Silhouette Score: {silhouette_avg}')
+
+#         # Davies-Bouldin Index:
+#         db_index = davies_bouldin_score(df_preprocessed.drop(columns=['Cluster']), df_preprocessed['Cluster'])
+#         print(f'Davies-Bouldin Index: {db_index}')
+
+# %%
 #KMEANS
 df_preprocessed = df_cleaned.copy()
 
@@ -303,7 +364,7 @@ cluster_options = [3]
 
 for num_clusters in cluster_options:
     # Run KMeans
-    kmeans = KMeans(n_clusters=num_clusters, random_state=20, init='k-means++', n_init=10, algorithm='elkan', max_iter=600)
+    kmeans = KMeans(n_clusters=num_clusters, random_state=20, init='random', n_init=10, algorithm='elkan', max_iter=600)
     df_preprocessed['Cluster'] = kmeans.fit_predict(df_preprocessed)
     clusters = kmeans.fit_predict(df_preprocessed)
     df_no_Scaling['Cluster'] = df_preprocessed['Cluster']
@@ -324,6 +385,10 @@ for num_clusters in cluster_options:
     pca = PCA(n_components=2)
     df_pca = pca.fit_transform(df_preprocessed)
 
+     # Transform centroids to PCA space
+    centroids = kmeans.cluster_centers_
+    centroids_pca = pca.transform(centroids)
+
     # Create a DataFrame with PCA results
     df_pca = pd.DataFrame(df_pca, columns=['PCA1', 'PCA2'])
     df_pca['Cluster'] = clusters
@@ -331,6 +396,7 @@ for num_clusters in cluster_options:
     # Plot the clusters
     plt.figure(figsize=(10, 8))
     sns.scatterplot(x='PCA1', y='PCA2', hue='Cluster', palette='viridis', data=df_pca, s=100, alpha=0.7)
+    plt.scatter(centroids_pca[:, 0], centroids_pca[:, 1], c='red', s=100, marker='X', label='Centroids')
     plt.title(f'Clusters Visualization using PCA for {num_clusters} Clusters')
     plt.xlabel('PCA1')
     plt.ylabel('PCA2')
@@ -338,23 +404,24 @@ for num_clusters in cluster_options:
     plt.grid(True)
     plt.show()
 
-# # Perform t-SNE to reduce to 2 dimensions
-# tsne = TSNE(n_components=2, random_state=42)
-# df_tsne = tsne.fit_transform(df_preprocessed)
+    #Perform t-SNE to reduce to 2 dimensions
+    tsne = TSNE(n_components=2, random_state=42)
+    df_tsne = tsne.fit_transform(df_preprocessed)
 
-# # Create a DataFrame with t-SNE results
-# df_tsne = pd.DataFrame(df_tsne, columns=['TSNE1', 'TSNE2'])
-# df_tsne['Cluster'] = clusters
+    # Create a DataFrame with t-SNE results
+    df_tsne = pd.DataFrame(df_tsne, columns=['TSNE1', 'TSNE2'])
+    df_tsne['Cluster'] = clusters
 
-# # Plot the clusters using t-SNE
-# plt.figure(figsize=(10, 8))
-# sns.scatterplot(x='TSNE1', y='TSNE2', hue='Cluster', palette='viridis', data=df_tsne, s=100, alpha=0.7)
-# plt.title('Clusters Visualization using t-SNE')
-# plt.xlabel('TSNE1')
-# plt.ylabel('TSNE2')
-# plt.legend(title='Cluster')
-# plt.grid(True)
-# plt.show()
+    # Plot the clusters using t-SNE
+    plt.figure(figsize=(10, 8))
+    sns.scatterplot(x='TSNE1', y='TSNE2', hue='Cluster', palette='viridis', data=df_tsne, s=100, alpha=0.7)
+    plt.title('Clusters Visualization using t-SNE')
+    plt.xlabel('TSNE1')
+    plt.ylabel('TSNE2')
+    plt.legend(title='Cluster')
+    plt.grid(True)
+    plt.show()
+
 
 
 # %%
@@ -372,28 +439,28 @@ df_pca = pca.fit_transform(df_preprocessed)
 # Initialize a list to store the results
 results = []
 
-# Iterate over the range of values for eps and min_samples
-for eps in eps_values:
-    for min_samples in min_samples_values:
-        # Run DBSCAN
-        dbscan = DBSCAN(eps=eps, min_samples=min_samples)
-        clusters = dbscan.fit_predict(df_pca)
+# # Iterate over the range of values for eps and min_samples
+# for eps in eps_values:
+#     for min_samples in min_samples_values:
+#         # Run DBSCAN
+#         dbscan = DBSCAN(eps=eps, min_samples=min_samples)
+#         clusters = dbscan.fit_predict(df_pca)
         
-        # Check if there are more than one cluster (excluding noise)
-        if len(set(clusters)) > 1:
-            # Calculate the Silhouette Score
-            silhouette_avg_dbscan = silhouette_score(df_pca, clusters)
-            # Calculate the Davies-Bouldin Index
-            db_index_dbscan = davies_bouldin_score(df_pca, clusters)
-            results.append((eps, min_samples, silhouette_avg_dbscan, db_index_dbscan))
-            print(f'DBSCAN with eps={eps}, min_samples={min_samples} - Silhouette Score: {silhouette_avg_dbscan}, Davies-Bouldin Index: {db_index_dbscan}')
-        else:
-            results.append((eps, min_samples, None, None))
-            print(f'DBSCAN with eps={eps}, min_samples={min_samples} - Silhouette Score: Not applicable (only one cluster)')
+#         # Check if there are more than one cluster (excluding noise)
+#         if len(set(clusters)) > 1:
+#             # Calculate the Silhouette Score
+#             silhouette_avg_dbscan = silhouette_score(df_pca, clusters)
+#             # Calculate the Davies-Bouldin Index
+#             db_index_dbscan = davies_bouldin_score(df_pca, clusters)
+#             results.append((eps, min_samples, silhouette_avg_dbscan, db_index_dbscan))
+#             print(f'DBSCAN with eps={eps}, min_samples={min_samples} - Silhouette Score: {silhouette_avg_dbscan}, Davies-Bouldin Index: {db_index_dbscan}')
+#         else:
+#             results.append((eps, min_samples, None, None))
+#             print(f'DBSCAN with eps={eps}, min_samples={min_samples} - Silhouette Score: Not applicable (only one cluster)')
 
-# Store the results in a DataFrame for better visualization
-results_df = pd.DataFrame(results, columns=['eps', 'min_samples', 'silhouette_score', 'davies_bouldin_index'])
-print(results_df)
+# # Store the results in a DataFrame for better visualization
+# results_df = pd.DataFrame(results, columns=['eps', 'min_samples', 'silhouette_score', 'davies_bouldin_index'])
+# print(results_df)
 
 # Example: Run the best DBSCAN (e.g., eps=0.5, min_samples=5) on the PCA-transformed data
 best_eps = 0.7
@@ -427,7 +494,7 @@ plt.show()
 #Agglomerative Clustering
 df_preprocessed = df_cleaned.copy()
 
-cluster_options_2 = []
+cluster_options_2 = [3]
 for num_clusters in cluster_options_2:
     # Run Agglomerative Clustering
     agglomerative = AgglomerativeClustering(n_clusters=num_clusters)
@@ -442,6 +509,10 @@ for num_clusters in cluster_options_2:
     # Silhouette Scores:
     silhouette_avg = silhouette_score(df_preprocessed, df_preprocessed['Cluster'])
     print(f'Silhouette Score: {silhouette_avg}')
+
+    # Davies-Bouldin Index:
+    db_index = davies_bouldin_score(df_preprocessed[df_preprocessed.columns], df_preprocessed['Cluster'])
+    print(f'Davies-Bouldin Index: {db_index}')
 
     # Perform PCA to reduce to 2 dimensions
     pca = PCA(n_components=2)
@@ -466,9 +537,9 @@ for num_clusters in cluster_options_2:
 
 # %%
 # Pair plot of selected features
-
-#df_preprocessed = df_preprocessed[df_preprocessed['Cluster'] != 0] #enable for dbscan
-selected_features = df_preprocessed.columns.drop(['Cluster','Education_1','Education_2','Education_3','Marital Status_1','Marital Status_0','Female_0','Female_1']).tolist()
+#Please note that this plots the most recently run model
+selected_features = df_preprocessed.columns.drop(['Cluster','Education_2','Education_3','Marital Status_1','Female_1']).tolist()
+#selected_features = df_preprocessed.columns.drop(['Cluster']).tolist()
 sns.pairplot(df_preprocessed[selected_features + ['Cluster']], hue='Cluster', palette='viridis')
 plt.suptitle('Pair Plot of Selected Features by Cluster', y=1.02)
 plt.show()
@@ -478,9 +549,10 @@ plt.show()
 # ## 5. Model Diagnostics
 
 # %%
+#Please note that this sums up the most recently run model
+
 cluster_summary = df_no_Scaling.groupby('Cluster').median()
 print(cluster_summary)
-
 
 # Compute the cluster summary
 cluster_summary = df_preprocessed.groupby('Cluster').median()
